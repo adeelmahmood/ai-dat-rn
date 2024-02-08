@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, StatusBar, Image, TouchableOpacity } from "react-native";
+import { View, Text, StatusBar, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -10,7 +10,7 @@ const Connect = () => {
     const router = useRouter();
 
     return (
-        <SafeAreaView style={styles.bg}>
+        <SafeAreaView className="flex-1 bg-white">
             <View
                 style={{
                     position: "absolute",
@@ -24,27 +24,27 @@ const Connect = () => {
                 </TouchableOpacity>
             </View>
             <StatusBar hidden />
-            <View style={styles.container}>
+            <View className="flex-1 items-center justify-center">
                 <Image
                     source={require("@/assets/images/logo3.jpeg")}
-                    style={styles.logo}
+                    className="h-64 w-64"
                     resizeMode="contain"
                 />
-                <Text style={styles.bottomTitle}>Welcome Back</Text>
-                <Text style={styles.bottomSubtitle}>
+                <Text className="font-extrabold text-2xl">Welcome Back</Text>
+                <Text className="text-gray-600 mt-2">
                     Continue by connecting your social account
                 </Text>
                 <BtnLink
                     title="Sign In | Register"
                     href="(auth)"
-                    style={{
+                    containerStyles={{
                         marginTop: 22,
                     }}
                 />
                 <BtnLink
                     title="Continue with Instagram"
                     href="(tabs)"
-                    style={{
+                    containerStyles={{
                         marginTop: 22,
                     }}
                 />
@@ -52,37 +52,5 @@ const Connect = () => {
         </SafeAreaView>
     );
 };
-
-const styles = StyleSheet.create({
-    bg: {
-        flex: 1,
-        backgroundColor: "white",
-    },
-    container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "white",
-        padding: 16,
-    },
-    logo: {
-        width: 92,
-        height: 92,
-    },
-    bottomTitle: {
-        fontSize: 32,
-        fontFamily: "roboto-bold",
-        alignItems: "center",
-        textAlign: "center",
-        color: "black",
-        marginTop: 16,
-    },
-    bottomSubtitle: {
-        fontSize: 16,
-        alignItems: "center",
-        color: "gray",
-        margin: 5,
-    },
-});
 
 export default Connect;

@@ -5,38 +5,30 @@ import { COLORS } from "@/constants/colors";
 const Btn = ({
     title,
     onPress = () => {},
-    overrideStyles = {},
+    containerStyles = {},
 }: {
     title: string;
     onPress?: any;
-    overrideStyles?: any;
+    containerStyles?: any;
 }) => {
     return (
-        <TouchableOpacity style={{ ...styles.button, ...overrideStyles }} onPress={onPress}>
-            <Text style={styles.text}>{title}</Text>
+        <TouchableOpacity
+            style={{ ...styles.button, ...containerStyles }}
+            onPress={onPress}
+            className="bg-primary px-6 py-3 rounded-2xl w-[80%] shadow-red-600"
+        >
+            <Text className="text-white font-bold text-center">{title}</Text>
         </TouchableOpacity>
     );
 };
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: COLORS.primary, // Dark pink as the base color
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 18,
-        alignItems: "center",
-        justifyContent: "center",
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
-        width: "80%",
-    },
-    text: {
-        color: "white", // White text for contrast
-        fontSize: 16,
-        fontWeight: "bold",
     },
 });
 

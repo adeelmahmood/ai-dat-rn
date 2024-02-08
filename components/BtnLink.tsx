@@ -7,7 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 interface BtnLinkProperties {
     title: string;
     href: any;
-    style?: any;
+    containerStyles?: any;
     inverse?: boolean;
     leftIcon?: any;
     rightIcon?: any;
@@ -16,7 +16,7 @@ interface BtnLinkProperties {
 const BtnLink: FC<BtnLinkProperties> = ({
     title,
     href,
-    style = {},
+    containerStyles = {},
     inverse = false,
     leftIcon = "",
     rightIcon = "",
@@ -24,10 +24,11 @@ const BtnLink: FC<BtnLinkProperties> = ({
     return (
         <Link href={href} asChild>
             <TouchableOpacity
-                style={{ ...(inverse ? styles.button_inverse : styles.button), ...style }}
                 onPress={() => {}}
+                style={{ ...styles.button, ...containerStyles }}
+                className="bg-primary px-6 py-3 rounded-2xl w-[80%] shadow-red-600"
             >
-                <Text style={inverse ? styles.text_inverse : styles.text}>{title}</Text>
+                <Text className="text-white font-bold text-center">{title}</Text>
                 {leftIcon && (
                     <View style={{ position: "absolute", left: 12 }}>
                         <Ionicons name={leftIcon} size={24} color={COLORS.white} />
@@ -45,44 +46,11 @@ const BtnLink: FC<BtnLinkProperties> = ({
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: COLORS.primary,
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 18,
-        alignItems: "center",
-        justifyContent: "center",
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
-        width: "80%",
-    },
-    button_inverse: {
-        backgroundColor: COLORS.white,
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 18,
-        borderColor: COLORS.primary,
-        borderWidth: 2,
-        alignItems: "center",
-        justifyContent: "center",
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-        width: "80%",
-    },
-    text: {
-        color: COLORS.white,
-        fontSize: 16,
-        fontWeight: "bold",
-    },
-    text_inverse: {
-        color: COLORS.primary,
-        fontSize: 16,
-        fontWeight: "bold",
     },
 });
 

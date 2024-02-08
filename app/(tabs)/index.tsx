@@ -1,14 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import {
-    View,
-    Platform,
-    KeyboardAvoidingView,
-    StyleSheet,
-    Image,
-    Text,
-    Pressable,
-    TouchableOpacity,
-} from "react-native";
+import { View, Platform, KeyboardAvoidingView, StyleSheet, Image, Text } from "react-native";
 import { GiftedChat, Bubble, Send, Composer, IMessage } from "react-native-gifted-chat";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -85,9 +76,9 @@ const Chat = () => {
             const lastMessage: any = messages[0];
             // console.log("lastMessage..", lastMessage);
             // user message
-            if (lastMessage?.user._id == 1) {
-                gpt();
-            }
+            // if (lastMessage?.user._id == 1) {
+            //     gpt();
+            // }
         }
         // gpt();
         // console.log("messages.. => ", messages);
@@ -116,19 +107,14 @@ const Chat = () => {
         );
     };
 
-    const renderComposer = (props: any) => {
-        return <Composer {...props} textInputStyle={styles.inputMessageContainer} />;
-    };
+    // const renderComposer = (props: any) => {
+    //     return <Composer {...props} textInputStyle={styles.inputMessageContainer} />;
+    // };
 
     return (
-        <SafeAreaView
-            style={{
-                flex: 1,
-                backgroundColor: "white",
-            }}
-        >
-            <View style={{ flex: 1 }}>
-                <View style={styles.header}>
+        <SafeAreaView className="flex-1 bg-white">
+            <View className="flex-1">
+                <View className="flex flex-row justify-center items-center border-b border-b-gray-300 px-6 py-3">
                     <Image
                         source={require("../../assets/images/face.png")}
                         style={{
@@ -142,18 +128,8 @@ const Chat = () => {
                             marginHorizontal: 12,
                         }}
                     >
-                        <Text
-                            style={
-                                {
-                                    // fontFamily: "Inter",
-                                }
-                            }
-                        >
-                            Adeel Q
-                        </Text>
-                        <Pressable onPress={() => console.log(messages, 1)}>
-                            <Text>Talk Space</Text>
-                        </Pressable>
+                        <Text className="font-semibold">Adeel Q</Text>
+                        <Text className="text-sm text-gray-800">Talk Space</Text>
                     </View>
                 </View>
 
@@ -180,30 +156,21 @@ const Chat = () => {
 };
 
 const styles = StyleSheet.create({
-    header: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: 16,
-        borderBottomColor: "gray",
-        borderBottomWidth: 0.3,
-        backgroundColor: "white",
-    },
-    inputContainer: {
-        backgroundColor: "white",
-        height: 72,
-        marginHorizontal: 5,
-    },
-    inputMessageContainer: {
-        backgroundColor: "#F6f6f6",
-        borderRadius: 16,
-        borderColor: "#f0f0f0",
-        borderWidth: 1,
-        paddingHorizontal: 22,
-    },
-    input: {
-        flex: 1,
-    },
+    // inputContainer: {
+    //     backgroundColor: "white",
+    //     height: 72,
+    //     marginHorizontal: 5,
+    // },
+    // inputMessageContainer: {
+    //     backgroundColor: "#F6f6f6",
+    //     borderRadius: 16,
+    //     borderColor: "#f0f0f0",
+    //     borderWidth: 1,
+    //     paddingHorizontal: 22,
+    // },
+    // input: {
+    //     flex: 1,
+    // },
     sendContainer: {
         justifyContent: "center",
         alignItems: "center",

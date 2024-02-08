@@ -1,20 +1,11 @@
 import React, { useState } from "react";
-import {
-    Alert,
-    StyleSheet,
-    View,
-    AppState,
-    TextInput,
-    Button,
-    TouchableOpacity,
-} from "react-native";
+import { Alert, View, AppState, TextInput, Text } from "react-native";
 import { supabase } from "../lib/supabase";
 import { COLORS } from "@/constants";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import BtnLink from "@/components/BtnLink";
 import Btn from "@/components/Btn";
-import { Stack, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
@@ -63,14 +54,14 @@ export default function Auth() {
     }
 
     return (
-        <SafeAreaView style={styles.bg}>
-            <View style={styles.container}>
-                <View style={styles.emailContainer}>
+        <SafeAreaView className="flex-1 bg-white">
+            <View className="flex items-center justify-center px-6 py-4">
+                <View className="flex flex-row bg-secondary_white items-center rounded-lg max-w-xs px-4 py-3">
                     <View>
                         <Ionicons name="mail-outline" size={24} color={COLORS.primary} />
                     </View>
                     <TextInput
-                        style={styles.emailInput}
+                        className="px-4 w-full"
                         onChangeText={(text) => setEmail(text)}
                         value={email}
                         placeholder="Email Address"
@@ -78,12 +69,12 @@ export default function Auth() {
                     />
                 </View>
 
-                <View style={styles.emailContainer}>
+                <View className="mt-4 flex flex-row bg-secondary_white items-center rounded-lg max-w-xs px-4 py-3">
                     <View>
                         <Ionicons name="lock-closed-outline" size={24} color={COLORS.primary} />
                     </View>
                     <TextInput
-                        style={styles.emailInput}
+                        className="px-4 w-full"
                         onChangeText={(text) => setPassword(text)}
                         value={password}
                         secureTextEntry={true}
@@ -91,52 +82,25 @@ export default function Auth() {
                     />
                 </View>
 
-                <View style={{ marginTop: 22 }}>
-                    <Btn title="Sign In" onPress={() => signInWithEmail()} styles={{}} />
+                <View className="mt-8 w-full items-center">
+                    <Btn title="Sign In" onPress={() => signInWithEmail()} />
+                </View>
+
+                <View className="mt-8 w-full items-center">
+                    <View className="flex flex-row space-x-2 item">
+                        <View className="border-t h-1 border-t-gray-200 w-full" />
+                        <View className="w-8 -top-2 items-center">
+                            <Text className="text-xs text-gray-600 text-center">OR</Text>
+                        </View>
+                        <View className="border-t h-1 border-t-gray-200 w-full" />
+                    </View>
                     <Btn
                         title="Register"
                         onPress={() => signUpWithEmail()}
-                        styles={{ marginTop: 22 }}
+                        containerStyles={{ marginTop: 12 }}
                     />
                 </View>
             </View>
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    bg: {
-        flex: 1,
-        backgroundColor: "white",
-    },
-    container: {
-        flex: 1,
-        alignItems: "center",
-        // justifyContent: "center",
-        backgroundColor: "white",
-        padding: 16,
-    },
-    verticallySpaced: {
-        paddingTop: 4,
-        paddingBottom: 4,
-        alignSelf: "stretch",
-    },
-    mt20: {
-        marginTop: 20,
-    },
-    emailContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-        backgroundColor: COLORS.secondary_white,
-        height: 50,
-        paddingHorizontal: 12,
-        borderRadius: 12,
-        marginBottom: 10,
-    },
-    emailInput: {
-        flex: 1,
-        marginHorizontal: 10,
-        height: "100%",
-        backgroundColor: COLORS.secondary_white,
-    },
-});
