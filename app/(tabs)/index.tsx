@@ -17,6 +17,8 @@ import { DEFAULT_PROMPT } from "@/constants/prompts";
 import { COLORS } from "@/constants";
 import { useRouter } from "expo-router";
 
+const OPEN_AI_KEY = process.env.EXPO_PUBLIC_OPEN_AI_KEY;
+
 const Chat = () => {
     const insets = useSafeAreaInsets();
 
@@ -47,7 +49,7 @@ const Chat = () => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: "Bearer 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",
+                Authorization: `Bearer ${OPEN_AI_KEY}`,
             },
             body: JSON.stringify({
                 model: "gpt-4",
