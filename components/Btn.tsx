@@ -2,10 +2,18 @@ import { Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { COLORS } from "@/constants/colors";
 
-const Btn = (props: { title: string; onPress: () => {}; styles: {} }) => {
+const Btn = ({
+    title,
+    onPress = () => {},
+    overrideStyles = {},
+}: {
+    title: string;
+    onPress?: any;
+    overrideStyles?: any;
+}) => {
     return (
-        <TouchableOpacity style={{ ...styles.button, ...props.styles }} onPress={props.onPress}>
-            <Text style={styles.text}>{props.title}</Text>
+        <TouchableOpacity style={{ ...styles.button, ...overrideStyles }} onPress={onPress}>
+            <Text style={styles.text}>{title}</Text>
         </TouchableOpacity>
     );
 };

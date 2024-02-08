@@ -1,8 +1,10 @@
+import { Ionicons } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import { TouchableOpacity } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export {
@@ -45,12 +47,26 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+    const router = useRouter();
     return (
         <SafeAreaProvider>
             <Stack initialRouteName="index">
                 <Stack.Screen name="index" options={{ headerShown: false }} />
-                <Stack.Screen name="connect/index" options={{ headerShown: false }} />
+                <Stack.Screen name="connect" options={{ headerShown: false }} />
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen name="profile" options={{ headerShown: false }} />
+                <Stack.Screen
+                    name="(auth)"
+                    options={{
+                        headerTitle: "Log In or Sign Up",
+                        presentation: "modal",
+                        headerRight: () => (
+                            <TouchableOpacity onPress={() => router.back()}>
+                                <Ionicons name="close" size={24} />
+                            </TouchableOpacity>
+                        ),
+                    }}
+                />
             </Stack>
         </SafeAreaProvider>
     );

@@ -1,12 +1,12 @@
-import { View, Text, StyleSheet, StatusBar, Image, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StatusBar, Image, StyleSheet } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { COLORS } from "@/constants/colors";
 import BtnLink from "@/components/BtnLink";
-import { COLORS } from "@/constants";
 
-const Connect = () => {
+const Profile = () => {
     const router = useRouter();
 
     return (
@@ -26,21 +26,43 @@ const Connect = () => {
             <StatusBar hidden />
             <View style={styles.container}>
                 <Image
-                    source={require("@/assets/images/logo3.jpeg")}
+                    source={require("@/assets/images/abstract-profile.jpeg")}
                     style={styles.logo}
                     resizeMode="contain"
                 />
-                <Text style={styles.bottomTitle}>Welcome Back</Text>
-                <Text style={styles.bottomSubtitle}>
-                    Continue by connecting your social account
-                </Text>
+                <Text style={styles.bottomTitle}>Build Your Profile</Text>
+
+                <Text style={styles.bottomSubtitle}>Use these actions to build your profile</Text>
+
                 <BtnLink
-                    title="Continue with Instagram"
-                    href="(tabs)"
-                    styles={{
-                        marginTop: 22,
+                    title="Your Information"
+                    href="/profile/info"
+                    rightIcon="checkmark-circle-sharp"
+                    style={{
+                        marginTop: 42,
                     }}
                 />
+                <Text style={styles.btnInfoText}>(We dont have your information yet)</Text>
+
+                <BtnLink
+                    title="Talk to AI Counselor"
+                    href="(tabs)"
+                    style={{
+                        marginTop: 42,
+                    }}
+                />
+                <Text style={styles.btnInfoText}>
+                    (You havent started talking to the counselor yet)
+                </Text>
+
+                <BtnLink
+                    title="Connect Your Instagram"
+                    href="(auth)"
+                    style={{
+                        marginTop: 42,
+                    }}
+                />
+                <Text style={styles.btnInfoText}>(for pictures)</Text>
             </View>
         </SafeAreaView>
     );
@@ -54,7 +76,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        justifyContent: "center",
         backgroundColor: "white",
         padding: 16,
     },
@@ -64,11 +85,11 @@ const styles = StyleSheet.create({
     },
     bottomTitle: {
         fontSize: 32,
-        fontFamily: "roboto-bold",
+        fontFamily: "roboto-med",
         alignItems: "center",
         textAlign: "center",
         color: "black",
-        marginTop: 16,
+        marginTop: 8,
     },
     bottomSubtitle: {
         fontSize: 16,
@@ -76,6 +97,12 @@ const styles = StyleSheet.create({
         color: "gray",
         margin: 5,
     },
+    btnInfoText: {
+        fontSize: 14,
+        alignItems: "center",
+        color: "gray",
+        margin: 8,
+    },
 });
 
-export default Connect;
+export default Profile;

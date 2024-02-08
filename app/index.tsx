@@ -17,7 +17,8 @@ const Welcome = () => {
                 </Text>
                 <Text style={styles.bottomSubtitle}>Driven By Conversation{"\n"}Not Swiping</Text>
 
-                <BtnLink href="/connect" title="Lets Get Started" styles={{}} />
+                <BtnLink href="/connect" title="Lets Get Started" />
+                <BtnLink href="/profile" title="Profile" />
             </View>
         </ImageBackground>
     );

@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { SAMPLE_MATCHES } from "@/constants/data";
 import { COLORS } from "@/constants/colors";
+import { Tabs } from "expo-router";
 
 const Conversations = () => {
     const renderItem = ({ item, index }: any) => {

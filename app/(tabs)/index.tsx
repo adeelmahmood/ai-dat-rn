@@ -7,6 +7,7 @@ import {
     Image,
     Text,
     Pressable,
+    TouchableOpacity,
 } from "react-native";
 import { GiftedChat, Bubble, Send, Composer, IMessage } from "react-native-gifted-chat";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -14,9 +15,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { DEFAULT_PROMPT } from "@/constants/prompts";
 import { COLORS } from "@/constants";
+import { useRouter } from "expo-router";
 
 const Chat = () => {
     const insets = useSafeAreaInsets();
+
+    const router = useRouter();
 
     const [messages, setMessages] = useState<IMessage[]>([]);
     const [isTyping, setIsTyping] = useState(false);

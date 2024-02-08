@@ -1,11 +1,18 @@
 import { Image } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { COLORS } from "@/constants";
+import { supabase } from "../lib/supabase";
 
 const TabsLayout = () => {
+    useEffect(() => {
+        supabase.auth.onAuthStateChange((_event, session) => {
+            console.log(_event, session);
+        });
+    }, []);
+
     return (
         <Tabs
             screenOptions={{
