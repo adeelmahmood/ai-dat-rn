@@ -113,44 +113,43 @@ const Chat = () => {
 
     return (
         <SafeAreaView className="flex-1 bg-white">
-            <View className="flex-1">
-                <View className="flex flex-row justify-center items-center border-b border-b-gray-300 px-6 py-3">
-                    <Image
-                        source={require("../../assets/images/face.png")}
-                        style={{
-                            height: 36,
-                            width: 36,
-                            marginTop: 0,
-                        }}
-                    />
-                    <View
-                        style={{
-                            marginHorizontal: 12,
-                        }}
-                    >
-                        <Text className="font-semibold">Adeel Q</Text>
-                        <Text className="text-sm text-gray-800">Talk Space</Text>
-                    </View>
-                </View>
-
-                <GiftedChat
-                    messages={messages}
-                    onSend={(newMessages: any) => onSend(newMessages)}
-                    user={{
-                        _id: 1,
+            {/* page header */}
+            <View className="flex flex-row justify-center items-center border-b border-b-gray-300 px-6 py-3">
+                <Image
+                    source={require("../../assets/images/face.png")}
+                    style={{
+                        height: 36,
+                        width: 36,
+                        marginTop: 0,
                     }}
-                    isTyping={isTyping}
-                    renderBubble={renderBubble}
-                    alwaysShowSend
-                    renderSend={renderSend}
-                    // renderAvatar={renderAvatar}
-                    // bottomOffset={34} //{insets.bottom}
-                    // wrapInSafeArea={false}
-                    bottomOffset={insets.bottom}
-                    // renderComposer={renderComposer}
                 />
-                {Platform.OS === "android" && <KeyboardAvoidingView behavior="padding" />}
+                <View
+                    style={{
+                        marginHorizontal: 12,
+                    }}
+                >
+                    <Text className="font-semibold">Adeel Q</Text>
+                    <Text className="text-sm text-gray-800">Talk Space</Text>
+                </View>
             </View>
+
+            <GiftedChat
+                messages={messages}
+                onSend={(newMessages: any) => onSend(newMessages)}
+                user={{
+                    _id: 1,
+                }}
+                isTyping={isTyping}
+                renderBubble={renderBubble}
+                alwaysShowSend
+                renderSend={renderSend}
+                // renderAvatar={renderAvatar}
+                // bottomOffset={34} //{insets.bottom}
+                // wrapInSafeArea={false}
+                bottomOffset={insets.bottom}
+                // renderComposer={renderComposer}
+            />
+            {Platform.OS === "android" && <KeyboardAvoidingView behavior="padding" />}
         </SafeAreaView>
     );
 };

@@ -8,34 +8,44 @@ interface BtnLinkProperties {
     title: string;
     href: any;
     containerStyles?: any;
-    inverse?: boolean;
     leftIcon?: any;
     rightIcon?: any;
+    disabled?: boolean;
 }
 
 const BtnLink: FC<BtnLinkProperties> = ({
     title,
     href,
     containerStyles = {},
-    inverse = false,
     leftIcon = "",
     rightIcon = "",
+    disabled = false,
 }) => {
     return (
         <Link href={href} asChild>
             <TouchableOpacity
                 onPress={() => {}}
+                disabled={disabled}
+                activeOpacity={0}
                 style={{ ...styles.button, ...containerStyles }}
-                className="bg-primary px-6 py-3 rounded-2xl w-[80%] shadow-red-600"
+                className={`${
+                    !disabled ? "bg-primary" : "bg-pink-50"
+                } px-6 py-3 rounded-2xl w-[80%] justify-center`}
             >
-                <Text className="text-white font-bold text-center">{title}</Text>
+                <Text
+                    className={`${
+                        !disabled ? "text-white" : "text-pink-300"
+                    } font-bold text-center`}
+                >
+                    {title}
+                </Text>
                 {leftIcon && (
-                    <View style={{ position: "absolute", left: 12 }}>
+                    <View className="absolute left-2">
                         <Ionicons name={leftIcon} size={24} color={COLORS.white} />
                     </View>
                 )}
                 {rightIcon && (
-                    <View style={{ position: "absolute", right: 12 }}>
+                    <View className="absolute right-2">
                         <Ionicons name={rightIcon} size={24} color={COLORS.white} />
                     </View>
                 )}

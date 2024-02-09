@@ -1,4 +1,4 @@
-import { View, Text, StatusBar, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -14,8 +14,8 @@ const Connect = () => {
             <View
                 style={{
                     position: "absolute",
-                    marginTop: 32,
-                    paddingLeft: 12,
+                    marginTop: 34,
+                    paddingLeft: 14,
                     zIndex: 999,
                 }}
             >
@@ -23,7 +23,6 @@ const Connect = () => {
                     <Ionicons name="arrow-back" size={32} color={COLORS.primary} />
                 </TouchableOpacity>
             </View>
-            <StatusBar hidden />
             <View className="flex-1 items-center justify-center">
                 <Image
                     source={require("@/assets/images/logo3.jpeg")}
@@ -43,7 +42,7 @@ const Connect = () => {
                 />
                 <BtnLink
                     title="Continue with Instagram"
-                    href="(tabs)"
+                    href="(tabs)/profile"
                     containerStyles={{
                         marginTop: 22,
                     }}

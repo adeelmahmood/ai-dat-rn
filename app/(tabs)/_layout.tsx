@@ -19,17 +19,33 @@ const TabsLayout = () => {
                 headerShown: false,
                 tabBarShowLabel: false,
             }}
-            initialRouteName="index"
         >
             <Tabs.Screen
-                name="index"
+                name="profile"
                 options={{
                     tabBarIcon: ({ focused, color }) => (
-                        <Image
-                            source={require("@/assets/images/logo3.jpeg")}
-                            style={{ width: 42, height: 42 }}
-                            resizeMode="contain"
+                        <FontAwesome6
+                            name="user-large"
+                            size={24}
+                            color={focused ? COLORS.primary : "black"}
                         />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="chat"
+                options={{
+                    tabBarIcon: ({ focused, color }) => (
+                        <Ionicons
+                            name="chatbubble-ellipses"
+                            size={24}
+                            color={focused ? COLORS.primary : "black"}
+                        />
+                        // <Image
+                        //     source={require("@/assets/images/logo3.jpeg")}
+                        //     style={{ width: 42, height: 42 }}
+                        //     resizeMode="contain"
+                        // />
                     ),
                 }}
             />
