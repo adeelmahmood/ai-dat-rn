@@ -1,11 +1,13 @@
+import { View, Text, Image, TouchableOpacity, AppState, Alert, TextInput } from "react-native";
 import React, { useState } from "react";
-import { Alert, View, AppState, TextInput, Text } from "react-native";
-import { supabase } from "../lib/supabase";
-import { COLORS } from "@/constants";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import Btn from "@/components/Btn";
 import { useRouter } from "expo-router";
+import BtnLink from "@/components/BtnLink";
+import { COLORS } from "@/constants";
+import { supabase } from "@/app/lib/supabase";
+import Btn from "@/components/Btn";
+import Spinner from "react-native-loading-spinner-overlay";
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
@@ -19,14 +21,19 @@ AppState.addEventListener("change", (state) => {
     }
 });
 
-export default function Auth() {
+const Connect = () => {
+    const router = useRouter();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const router = useRouter();
-
     async function signInWithEmail() {
+        if (!email || !password) {
+            Alert.alert("Must provide email and password");
+            return;
+        }
+
         setLoading(true);
         const { error } = await supabase.auth.signInWithPassword({
             email: email,
@@ -34,11 +41,16 @@ export default function Auth() {
         });
 
         if (error) Alert.alert(error.message);
-        else router.replace("/(tabs)/profile");
+        else router.navigate("profile");
         setLoading(false);
     }
 
     async function signUpWithEmail() {
+        if (!email || !password) {
+            Alert.alert("Must provide email and password");
+            return;
+        }
+
         setLoading(true);
         const {
             data: { session },
@@ -55,7 +67,27 @@ export default function Auth() {
 
     return (
         <SafeAreaView className="flex-1 bg-white">
-            <View className="flex items-center justify-center px-6 py-4">
+            <Spinner visible={loading} />
+            <View
+                style={{
+                    position: "absolute",
+                    marginTop: 34,
+                    paddingLeft: 14,
+                    zIndex: 999,
+                }}
+            >
+                <TouchableOpacity onPress={() => router.back()}>
+                    <Ionicons name="arrow-back" size={32} color={COLORS.primary} />
+                </TouchableOpacity>
+            </View>
+            <View className="flex-1 items-center justify-center">
+                <Image
+                    source={require("@/assets/images/logo3.jpeg")}
+                    className="h-56 w-56"
+                    resizeMode="contain"
+                />
+                <Text className="font-extrabold text-2xl mb-4 -top-2">Welcome Back</Text>
+
                 <View className="flex flex-row bg-secondary_white items-center rounded-lg max-w-xs px-4 py-3">
                     <View>
                         <Ionicons name="mail-outline" size={24} color={COLORS.primary} />
@@ -84,6 +116,11 @@ export default function Auth() {
 
                 <View className="mt-8 w-full items-center">
                     <Btn title="Sign In" onPress={() => signInWithEmail()} />
+                    <Btn
+                        title="Register"
+                        onPress={() => signUpWithEmail()}
+                        containerStyles={{ marginTop: 12 }}
+                    />
                 </View>
 
                 <View className="mt-8 w-full items-center">
@@ -94,13 +131,21 @@ export default function Auth() {
                         </View>
                         <View className="border-t h-1 border-t-gray-200 w-full" />
                     </View>
+
                     <Btn
-                        title="Register"
-                        onPress={() => signUpWithEmail()}
+                        title="Connect By Google"
+                        onPress={() => console.log("google")}
+                        containerStyles={{ marginTop: 12 }}
+                    />
+                    <Btn
+                        title="Connect By Apple"
+                        onPress={() => console.log("apple")}
                         containerStyles={{ marginTop: 12 }}
                     />
                 </View>
             </View>
         </SafeAreaView>
     );
-}
+};
+
+export default Connect;

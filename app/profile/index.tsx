@@ -1,8 +1,9 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import BtnLink from "@/components/BtnLink";
+import { Ionicons } from "@expo/vector-icons";
 
 const Profile = () => {
     const router = useRouter();
@@ -10,23 +11,14 @@ const Profile = () => {
     return (
         <SafeAreaView className="flex-1 bg-white">
             {/* page header */}
-            <View className="flex flex-row justify-center items-center border-b border-b-gray-300 px-6 py-3">
-                <Image
-                    source={require("@/assets/images/face.png")}
-                    style={{
-                        height: 36,
-                        width: 36,
-                        marginTop: 0,
-                    }}
-                />
-                <View
-                    style={{
-                        marginHorizontal: 12,
-                    }}
+            <View className="flex flex-row justify-end items-center border-b border-b-gray-300 px-6 py-3">
+                <TouchableOpacity
+                    onPress={() => router.navigate("/connect")}
+                    className="flex flex-row items-center"
                 >
-                    <Text className="font-semibold">Adeel Q</Text>
-                    <Text className="text-sm text-gray-800">Talk Space</Text>
-                </View>
+                    <Text className="font-semibold text-gray-800 mr-2">Logout</Text>
+                    <Ionicons name="log-out-outline" size={24} />
+                </TouchableOpacity>
             </View>
             <View className="flex-1 items-center justify-center p-4">
                 <Image
@@ -53,7 +45,7 @@ const Profile = () => {
 
                     <BtnLink
                         title="Talk to AI Counselor"
-                        href="/profile/ai"
+                        href="profile/talk"
                         containerStyles={{
                             marginTop: 42,
                         }}

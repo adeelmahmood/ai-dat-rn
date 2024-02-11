@@ -1,10 +1,9 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Provider, useAuth } from "@/providers/auth";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { Stack, useRouter } from "expo-router";
+import { Stack, useRouter, useSegments } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { TouchableOpacity } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export {
@@ -43,29 +42,24 @@ export default function RootLayout() {
         return null;
     }
 
-    return <RootLayoutNav />;
+    return (
+        <Provider>
+            <RootLayoutNav />
+        </Provider>
+    );
 }
 
 function RootLayoutNav() {
-    const router = useRouter();
+    const { authInitialized, user } = useAuth();
+    if (!authInitialized && !user) return null;
+
     return (
         <SafeAreaProvider>
             <Stack initialRouteName="index">
                 <Stack.Screen name="index" options={{ headerShown: false }} />
                 <Stack.Screen name="connect" options={{ headerShown: false }} />
+                <Stack.Screen name="profile" options={{ headerShown: false }} />
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen
-                    name="(auth)"
-                    options={{
-                        headerTitle: "Log In or Sign Up",
-                        presentation: "modal",
-                        headerRight: () => (
-                            <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="close" size={24} />
-                            </TouchableOpacity>
-                        ),
-                    }}
-                />
             </Stack>
         </SafeAreaProvider>
     );

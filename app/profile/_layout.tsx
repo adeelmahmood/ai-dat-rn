@@ -22,7 +22,7 @@ const _layout = () => {
                     ),
                 }}
             />
-            <Stack.Screen name="ai" options={{ headerShown: false }} />
+            <Stack.Screen name="talk" options={{ headerShown: false }} />
         </Stack>
     );
 };

@@ -1,13 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import {
-    View,
-    Platform,
-    KeyboardAvoidingView,
-    StyleSheet,
-    Image,
-    Text,
-    TouchableOpacity,
-} from "react-native";
+import { View, Platform, KeyboardAvoidingView, StyleSheet, Image, Text } from "react-native";
 import { GiftedChat, Bubble, Send, Composer, IMessage } from "react-native-gifted-chat";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -15,19 +7,18 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { DEFAULT_PROMPT } from "@/constants/prompts";
 import { COLORS } from "@/constants";
 import { useRouter } from "expo-router";
-import { useAuth } from "@/providers/auth";
+import Spinner from "react-native-loading-spinner-overlay";
+import BtnLink from "@/components/BtnLink";
 
 const OPEN_AI_KEY = process.env.EXPO_PUBLIC_OPEN_AI_KEY;
 
-const Chat = () => {
+const Talk = () => {
     const insets = useSafeAreaInsets();
 
     const router = useRouter();
 
     const [messages, setMessages] = useState<IMessage[]>([]);
     const [isTyping, setIsTyping] = useState(false);
-
-    const { signOut } = useAuth();
 
     const prepareMessagesForGpt = (messages: IMessage[]) => {
         const msgs = messages.map((m: IMessage) => ({
@@ -44,7 +35,7 @@ const Chat = () => {
     const gpt = () => {
         setIsTyping(true);
         const preparedMessages = prepareMessagesForGpt(messages);
-        console.log(preparedMessages);
+        // console.log(preparedMessages);
 
         // make call to ai agent yes
         fetch("https://api.openai.com/v1/chat/completions", {
@@ -60,6 +51,7 @@ const Chat = () => {
         })
             .then((response) => response.json())
             .then((data) => {
+                console.log("got response..", data);
                 const aiMessage = {
                     _id: Math.random().toString(),
                     text: data.choices[0].message.content.trim(),
@@ -82,17 +74,21 @@ const Chat = () => {
 
     useEffect(() => {
         // start the conversation
-        if (messages.length == 0 && false) gpt();
-        else {
-            const lastMessage: any = messages[0];
-            // console.log("lastMessage..", lastMessage);
-            // user message
-            // if (lastMessage?.user._id == 1) {
-            //     gpt();
-            // }
+        if (messages.length == 0 && false) {
+            setTimeout(() => {
+                console.log("starting conversation");
+                gpt();
+            }, 500);
         }
-        // gpt();
-        // console.log("messages.. => ", messages);
+    }, [messages]);
+
+    useEffect(() => {
+        if (messages.length > 0) {
+            const lastMessage: any = messages[0];
+            if (lastMessage?.user._id == 1) {
+                gpt();
+            }
+        }
     }, [messages]);
 
     const renderBubble = (props: any) => {
@@ -125,9 +121,9 @@ const Chat = () => {
     return (
         <SafeAreaView className="flex-1 bg-white">
             {/* page header */}
-            <View className="flex flex-row justify-center items-center border-b border-b-gray-300 px-6 py-3 relative">
+            <View className="flex flex-row justify-center items-center border-b border-b-gray-300 px-6 py-3">
                 <Image
-                    source={require("../../assets/images/face.png")}
+                    source={require("../../assets/images/logo4.jpeg")}
                     style={{
                         height: 36,
                         width: 36,
@@ -139,14 +135,8 @@ const Chat = () => {
                         marginHorizontal: 12,
                     }}
                 >
-                    <Text className="font-semibold">Adeel Q</Text>
-                    <Text className="text-sm text-gray-800">Talk Space</Text>
-                </View>
-                <View className="absolute right-2">
-                    <TouchableOpacity onPress={signOut} className="flex flex-row items-center">
-                        <Text className="font-semibold text-gray-800 mr-2">Logout</Text>
-                        <Ionicons name="log-out-outline" size={24} />
-                    </TouchableOpacity>
+                    <Text className="font-semibold">AI</Text>
+                    <Text className="text-sm text-gray-800">Build Profile</Text>
                 </View>
             </View>
 
@@ -160,6 +150,11 @@ const Chat = () => {
                 renderBubble={renderBubble}
                 alwaysShowSend
                 renderSend={renderSend}
+                renderAccessory={() => (
+                    <View className="flex items-center">
+                        <BtnLink href="(tabs)/chat" title="Generate Profile" />
+                    </View>
+                )}
                 // renderAvatar={renderAvatar}
                 // bottomOffset={34} //{insets.bottom}
                 // wrapInSafeArea={false}
@@ -195,4 +190,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Chat;
+export default Talk;

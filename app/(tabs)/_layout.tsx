@@ -7,11 +7,11 @@ import { COLORS } from "@/constants";
 import { supabase } from "../lib/supabase";
 
 const TabsLayout = () => {
-    useEffect(() => {
-        supabase.auth.onAuthStateChange((_event, session) => {
-            console.log(_event, session);
-        });
-    }, []);
+    // useEffect(() => {
+    //     supabase.auth.onAuthStateChange((_event, session) => {
+    //         console.log(_event, session);
+    //     });
+    // }, []);
 
     return (
         <Tabs
@@ -20,18 +20,6 @@ const TabsLayout = () => {
                 tabBarShowLabel: false,
             }}
         >
-            <Tabs.Screen
-                name="profile"
-                options={{
-                    tabBarIcon: ({ focused, color }) => (
-                        <FontAwesome6
-                            name="user-large"
-                            size={24}
-                            color={focused ? COLORS.primary : "black"}
-                        />
-                    ),
-                }}
-            />
             <Tabs.Screen
                 name="chat"
                 options={{
