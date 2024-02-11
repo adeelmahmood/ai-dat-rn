@@ -29,6 +29,11 @@ const Chat = () => {
 
     const { signOut } = useAuth();
 
+    const onSignOut = async () => {
+        console.log("signing user out");
+        await signOut();
+    };
+
     const prepareMessagesForGpt = (messages: IMessage[]) => {
         const msgs = messages.map((m: IMessage) => ({
             role: m.user._id == 1 ? "user" : "assistant",
@@ -143,7 +148,7 @@ const Chat = () => {
                     <Text className="text-sm text-gray-800">Talk Space</Text>
                 </View>
                 <View className="absolute right-2">
-                    <TouchableOpacity onPress={signOut} className="flex flex-row items-center">
+                    <TouchableOpacity onPress={onSignOut} className="flex flex-row items-center">
                         <Text className="font-semibold text-gray-800 mr-2">Logout</Text>
                         <Ionicons name="log-out-outline" size={24} />
                     </TouchableOpacity>

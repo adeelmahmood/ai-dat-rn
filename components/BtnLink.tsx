@@ -5,18 +5,20 @@ import { COLORS } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 
 interface BtnLinkProperties {
-    title: string;
+    title?: string;
     href: any;
     containerStyles?: any;
+    icon?: any;
     leftIcon?: any;
     rightIcon?: any;
     disabled?: boolean;
 }
 
 const BtnLink: FC<BtnLinkProperties> = ({
-    title,
+    title = "",
     href,
     containerStyles = {},
+    icon = "",
     leftIcon = "",
     rightIcon = "",
     disabled = false,
@@ -28,25 +30,41 @@ const BtnLink: FC<BtnLinkProperties> = ({
                 disabled={disabled}
                 activeOpacity={0}
                 style={{ ...styles.button, ...containerStyles }}
-                className={`${
-                    !disabled ? "bg-primary" : "bg-pink-50"
-                } px-6 py-3 rounded-2xl w-[80%] justify-center`}
+                className={`${!disabled ? "bg-primary" : "bg-gray-200"} px-6 py-3 rounded-2xl ${
+                    !icon && "w-[80%]"
+                } justify-center`}
             >
-                <Text
-                    className={`${
-                        !disabled ? "text-white" : "text-pink-300"
-                    } font-bold text-center`}
-                >
-                    {title}
-                </Text>
+                {!icon ? (
+                    <Text
+                        className={`${
+                            !disabled ? "text-white" : "text-gray-400"
+                        } font-bold text-center`}
+                    >
+                        {title}
+                    </Text>
+                ) : (
+                    <Ionicons
+                        name={icon}
+                        size={24}
+                        color={disabled ? COLORS.warm_gray : COLORS.white}
+                    />
+                )}
                 {leftIcon && (
                     <View className="absolute left-2">
-                        <Ionicons name={leftIcon} size={24} color={COLORS.white} />
+                        <Ionicons
+                            name={leftIcon}
+                            size={24}
+                            color={disabled ? COLORS.warm_gray : COLORS.white}
+                        />
                     </View>
                 )}
                 {rightIcon && (
                     <View className="absolute right-2">
-                        <Ionicons name={rightIcon} size={24} color={COLORS.white} />
+                        <Ionicons
+                            name={rightIcon}
+                            size={24}
+                            color={disabled ? COLORS.warm_gray : COLORS.white}
+                        />
                     </View>
                 )}
             </TouchableOpacity>

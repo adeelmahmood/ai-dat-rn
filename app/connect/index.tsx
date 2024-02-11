@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, AppState, Alert, TextInput } from "react-native";
+import { View, Text, Image, TouchableOpacity, AppState, Alert } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -8,6 +8,7 @@ import { COLORS } from "@/constants";
 import { supabase } from "@/app/lib/supabase";
 import Btn from "@/components/Btn";
 import Spinner from "react-native-loading-spinner-overlay";
+import InputBox from "@/components/InputBox";
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
@@ -41,7 +42,7 @@ const Connect = () => {
         });
 
         if (error) Alert.alert(error.message);
-        else router.navigate("profile");
+        // else router.navigate("profile");
         setLoading(false);
     }
 
@@ -88,31 +89,22 @@ const Connect = () => {
                 />
                 <Text className="font-extrabold text-2xl mb-4 -top-2">Welcome Back</Text>
 
-                <View className="flex flex-row bg-secondary_white items-center rounded-lg max-w-xs px-4 py-3">
-                    <View>
-                        <Ionicons name="mail-outline" size={24} color={COLORS.primary} />
-                    </View>
-                    <TextInput
-                        className="px-4 w-full"
-                        onChangeText={(text) => setEmail(text)}
-                        value={email}
-                        placeholder="Email Address"
-                        autoCapitalize={"none"}
-                    />
-                </View>
+                <InputBox
+                    value={email}
+                    setValue={setEmail}
+                    placeholder="Email Address"
+                    icon="mail-outline"
+                    containerStyles="max-w-xs"
+                />
 
-                <View className="mt-4 flex flex-row bg-secondary_white items-center rounded-lg max-w-xs px-4 py-3">
-                    <View>
-                        <Ionicons name="lock-closed-outline" size={24} color={COLORS.primary} />
-                    </View>
-                    <TextInput
-                        className="px-4 w-full"
-                        onChangeText={(text) => setPassword(text)}
-                        value={password}
-                        secureTextEntry={true}
-                        placeholder="Password"
-                    />
-                </View>
+                <InputBox
+                    value={password}
+                    setValue={setPassword}
+                    placeholder="Password"
+                    icon="lock-closed-outline"
+                    secure={true}
+                    containerStyles="max-w-xs mt-2"
+                />
 
                 <View className="mt-8 w-full items-center">
                     <Btn title="Sign In" onPress={() => signInWithEmail()} />
@@ -132,14 +124,16 @@ const Connect = () => {
                         <View className="border-t h-1 border-t-gray-200 w-full" />
                     </View>
 
-                    <Btn
+                    <BtnLink
                         title="Connect By Google"
-                        onPress={() => console.log("google")}
+                        href="/"
+                        leftIcon="logo-google"
                         containerStyles={{ marginTop: 12 }}
                     />
-                    <Btn
+                    <BtnLink
                         title="Connect By Apple"
-                        onPress={() => console.log("apple")}
+                        href="/"
+                        leftIcon="logo-apple"
                         containerStyles={{ marginTop: 12 }}
                     />
                 </View>

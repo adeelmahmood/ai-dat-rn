@@ -38,7 +38,7 @@ export function Provider(props: ProviderProps) {
     // This hook will protect the route access based on user authentication.
     const useProtectedRoute = (user: User | null) => {
         const segments = useSegments();
-        console.log(segments);
+        console.log(segments, user?.id);
         const router = useRouter();
 
         // checking that navigation is all good;
@@ -47,33 +47,45 @@ export function Provider(props: ProviderProps) {
         useEffect(() => {
             if (!navigationState?.key || !authInitialized) return;
 
-            const inAuthGroup = segments[0] === "(auth)";
+            const inAuthGroup = segments[0] === "(tabs)" || segments[0] === "profile";
 
-            // unprotected route
-            if (segments[0] === "connect") return;
-
-            if (
-                // If the user is not signed in and the initial segment is not anything in the auth group.
-                !user &&
-                !inAuthGroup
-            ) {
-                // Redirect to the sign-in page.
-                router.replace("/");
-            } else if (user && inAuthGroup) {
-                // Redirect away from the sign-in page.
-                router.replace("/(tabs)/chat");
+            // log out behavior
+            if (!user && inAuthGroup) {
+                router.navigate("/");
             }
+            // skip connect page
+            if (user && segments[0] == "connect") {
+                router.navigate("/profile/");
+            }
+
+            // // unprotected route
+            // if (segments[0] === "connect") return;
+
+            // if (
+            //     // If the user is not signed in and the initial segment is not anything in the auth group.
+            //     !user &&
+            //     !inAuthGroup
+            // ) {
+            //     // Redirect to the sign-in page.
+            //     router.replace("/");
+            // } else if (user && inAuthGroup) {
+            //     // Redirect away from the sign-in page.
+            //     router.replace("/(tabs)/chat");
+            // }
         }, [user, segments, authInitialized, navigationState?.key]);
     };
 
     useEffect(() => {
         if (authInitialized) return;
-        supabase.auth.onAuthStateChange((event, session) => {
+
+        const { data } = supabase.auth.onAuthStateChange((event, session) => {
             console.log("got user", session?.user?.email);
             setAuthInitialized(true);
             setAuth(session?.user || null);
-            session?.user?.email && router.replace("/(tabs)/chat");
+            // session?.user?.email && router.replace("/(tabs)/chat");
         });
+
+        return () => data.subscription.unsubscribe();
     }, []);
 
     /**
