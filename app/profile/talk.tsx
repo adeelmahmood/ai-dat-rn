@@ -1,16 +1,10 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { View, Platform, KeyboardAvoidingView, StyleSheet, Image, Text } from "react-native";
 import { GiftedChat, Bubble, Send, Composer, IMessage } from "react-native-gifted-chat";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { DEFAULT_PROMPT } from "@/constants/prompts";
 import { COLORS } from "@/constants";
 import { useRouter } from "expo-router";
-import Spinner from "react-native-loading-spinner-overlay";
-import BtnLink from "@/components/BtnLink";
-
-const OPEN_AI_KEY = process.env.EXPO_PUBLIC_OPEN_AI_KEY;
 
 const Talk = () => {
     const insets = useSafeAreaInsets();
@@ -20,46 +14,37 @@ const Talk = () => {
     const [messages, setMessages] = useState<IMessage[]>([]);
     const [isTyping, setIsTyping] = useState(false);
 
-    const prepareMessagesForGpt = (messages: IMessage[]) => {
-        const msgs = messages.map((m: IMessage) => ({
-            role: m.user._id == 1 ? "user" : "assistant",
-            content: m.text,
-        }));
-        const systemMessage = {
-            role: "system",
-            content: DEFAULT_PROMPT,
-        };
-        return [systemMessage, ...msgs.reverse()];
-    };
-
     const gpt = () => {
         setIsTyping(true);
-        const preparedMessages = prepareMessagesForGpt(messages);
-        // console.log(preparedMessages);
 
-        // make call to ai agent yes
-        fetch("https://api.openai.com/v1/chat/completions", {
+        // make call to personality agent
+        fetch("http://localhost:3000/api/personality", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${OPEN_AI_KEY}`,
+                // Authorization: `Bearer ${OPEN_AI_KEY}`,
             },
-            body: JSON.stringify({
-                model: "gpt-4",
-                messages: preparedMessages,
-            }),
+            body: JSON.stringify(messages),
         })
             .then((response) => response.json())
             .then((data) => {
                 console.log("got response..", data);
-                const aiMessage = {
+
+                // extract quick reply choices
+                const choices = data.choices?.map((c: any) => ({ title: c, value: c }));
+                // construct ai response
+                const aiMessage: IMessage = {
                     _id: Math.random().toString(),
-                    text: data.choices[0].message.content.trim(),
+                    text: data.response,
                     createdAt: new Date(),
-                    user: {
-                        _id: 2,
-                        name: "Assistant",
-                    },
+                    user: aiUser,
+                    quickReplies:
+                        choices && choices.length > 0
+                            ? {
+                                  type: "radio",
+                                  values: choices,
+                              }
+                            : undefined,
                 };
 
                 setMessages((previousMessages) => GiftedChat.append(previousMessages, [aiMessage]));
@@ -68,13 +53,35 @@ const Talk = () => {
             .finally(() => setIsTyping(false));
     };
 
-    const onSend = useCallback(async (msgs = []) => {
+    const user = {
+        _id: 1,
+        name: "",
+    };
+
+    const aiUser = {
+        _id: 2,
+        name: "Assistant",
+    };
+
+    const onSend = useCallback(async (msgs: IMessage[] = []) => {
+        console.log(msgs);
         setMessages((previousMessages) => GiftedChat.append(previousMessages, msgs));
+    }, []);
+
+    const onQuickReply = useCallback((replies: any[]) => {
+        onSend([
+            {
+                createdAt: new Date(),
+                _id: Math.round(Math.random() * 1000000),
+                text: replies[0].title,
+                user,
+            },
+        ]);
     }, []);
 
     useEffect(() => {
         // start the conversation
-        if (messages.length == 0 && false) {
+        if (messages.length == 0) {
             setTimeout(() => {
                 console.log("starting conversation");
                 gpt();
@@ -83,6 +90,7 @@ const Talk = () => {
     }, [messages]);
 
     useEffect(() => {
+        // send message
         if (messages.length > 0) {
             const lastMessage: any = messages[0];
             if (lastMessage?.user._id == 1) {
@@ -119,27 +127,7 @@ const Talk = () => {
     // };
 
     return (
-        <SafeAreaView className="flex-1 bg-white">
-            {/* page header */}
-            <View className="flex flex-row justify-center items-center border-b border-b-gray-300 px-6 py-3">
-                <Image
-                    source={require("../../assets/images/logo4.jpeg")}
-                    style={{
-                        height: 36,
-                        width: 36,
-                        marginTop: 0,
-                    }}
-                />
-                <View
-                    style={{
-                        marginHorizontal: 12,
-                    }}
-                >
-                    <Text className="font-semibold">AI</Text>
-                    <Text className="text-sm text-gray-800">Build Profile</Text>
-                </View>
-            </View>
-
+        <View className="flex-1 bg-white">
             <GiftedChat
                 messages={messages}
                 onSend={(newMessages: any) => onSend(newMessages)}
@@ -150,11 +138,7 @@ const Talk = () => {
                 renderBubble={renderBubble}
                 alwaysShowSend
                 renderSend={renderSend}
-                renderAccessory={() => (
-                    <View className="flex items-center">
-                        <BtnLink href="(tabs)/chat" title="Generate Profile" />
-                    </View>
-                )}
+                onQuickReply={onQuickReply}
                 // renderAvatar={renderAvatar}
                 // bottomOffset={34} //{insets.bottom}
                 // wrapInSafeArea={false}
@@ -162,7 +146,7 @@ const Talk = () => {
                 // renderComposer={renderComposer}
             />
             {Platform.OS === "android" && <KeyboardAvoidingView behavior="padding" />}
-        </SafeAreaView>
+        </View>
     );
 };
 

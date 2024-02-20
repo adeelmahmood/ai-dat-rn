@@ -1,11 +1,21 @@
 import { View, StyleSheet, TouchableOpacity, TextInput, Image, Text, FlatList } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { SAMPLE_MATCHES } from "@/constants/data";
 import { COLORS } from "@/constants/colors";
+import { generateSampleMatches } from "@/utils/generateData";
+import { Match } from "@/types";
+import timeAgo from "@/utils/timeAgo";
 
 const Conversations = () => {
+    const [sampleMatches, setSampleMatches] = useState<Match[]>();
+
+    useEffect(() => {
+        if (!sampleMatches) {
+            setSampleMatches(generateSampleMatches());
+        }
+    }, []);
+
     const renderItem = ({ item, index }: any) => {
         return (
             <TouchableOpacity
@@ -16,14 +26,14 @@ const Conversations = () => {
             >
                 <View className="px-2 py-2">
                     <Image
-                        source={item.image}
+                        source={{ uri: item.image }}
                         resizeMode="center"
                         className="w-12 h-12 rounded-full"
                     />
                     {item.isOnline && <View style={styles.onlineIndicator} />}
                 </View>
 
-                <View className="ml-2">
+                <View className="ml-2 mr-20">
                     <Text className="font-semibold">{item.username}</Text>
                     <Text className="text-gray-600 mt-1">{item.lastMessage}</Text>
                 </View>
@@ -32,10 +42,11 @@ const Conversations = () => {
                     style={{
                         position: "absolute",
                         right: 10,
+                        top: 8,
                         alignItems: "center",
                     }}
                 >
-                    <Text className="text-xs text-gray-500">{item.lastMessageTime}</Text>
+                    <Text className="text-xs text-gray-500">{timeAgo(item.lastMessageTime)}</Text>
                 </View>
             </TouchableOpacity>
         );
@@ -74,7 +85,7 @@ const Conversations = () => {
             {/* Conversations */}
             <View>
                 <FlatList
-                    data={SAMPLE_MATCHES}
+                    data={sampleMatches}
                     renderItem={renderItem}
                     keyExtractor={(item) => item?.id.toString()}
                     showsVerticalScrollIndicator={false}

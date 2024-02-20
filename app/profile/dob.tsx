@@ -1,18 +1,21 @@
-import { View, Text, ImageBackground } from "react-native";
+import { View, Text } from "react-native";
 import React, { useState } from "react";
 import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import BtnLink from "@/components/BtnLink";
+import LottieView from "lottie-react-native";
 
 const DoB = () => {
     const [dob, setDob] = useState<Date>(new Date());
 
     return (
         <View className="flex-1 bg-white">
-            <ImageBackground
-                source={require("@/assets/images/profile/dob.png")}
-                className="flex-1"
-                resizeMethod="scale"
+            <LottieView
+                source={require("@/assets/animations/love-blind.json")}
+                style={{ flex: 1 }}
+                autoPlay
+                duration={3000}
+                loop
             />
             <View className="flex-1 px-6 py-4">
                 <Text className="text-2xl font-roboto-bold">What is your date of birth?</Text>

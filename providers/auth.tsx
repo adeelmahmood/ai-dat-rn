@@ -79,7 +79,7 @@ export function Provider(props: ProviderProps) {
         if (authInitialized) return;
 
         const { data } = supabase.auth.onAuthStateChange((event, session) => {
-            console.log("got user", session?.user?.email);
+            // console.log("got user", session?.user?.email);
             setAuthInitialized(true);
             setAuth(session?.user || null);
             // session?.user?.email && router.replace("/(tabs)/chat");

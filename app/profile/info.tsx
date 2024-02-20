@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { StyleSheet, View, TextInput, Text } from "react-native";
 import { COLORS } from "@/constants";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import Btn from "@/components/Btn";
 import { useRouter } from "expo-router";
 

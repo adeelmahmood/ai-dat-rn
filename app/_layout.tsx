@@ -55,7 +55,7 @@ function RootLayoutNav() {
 
     return (
         <SafeAreaProvider>
-            <Stack initialRouteName="index">
+            <Stack initialRouteName="(tabs)">
                 <Stack.Screen name="index" options={{ headerShown: false }} />
                 <Stack.Screen name="connect" options={{ headerShown: false }} />
                 <Stack.Screen name="profile" options={{ headerShown: false }} />

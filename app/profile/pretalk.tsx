@@ -20,7 +20,8 @@ const PreTalk = () => {
                 </Text>
 
                 <Text className="text-lg font-roboto mt-6">
-                    This will take about 10 mins and you can always come back to finish it.
+                    This will should only take a couple of mins and you can always come back to
+                    finish it.
                 </Text>
 
                 <Text className="text-lg mt-6 font-roboto-med">
@@ -31,8 +32,8 @@ const PreTalk = () => {
 
                 {/* bottom buttons */}
                 <View className="flex-row items-center justify-between">
-                    <BtnLink icon="arrow-back" href="/profile/city" />
-                    <BtnLink icon="arrow-forward" href="/profile/dob" />
+                    <BtnLink icon="arrow-back" href="/profile/dob" />
+                    <BtnLink icon="arrow-forward" href="/profile/talk" />
                 </View>
             </View>
         </View>

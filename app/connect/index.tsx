@@ -110,12 +110,13 @@ const Connect = () => {
                     <Btn title="Sign In" onPress={() => signInWithEmail()} />
                     <Btn
                         title="Register"
+                        isSecondary={true}
                         onPress={() => signUpWithEmail()}
                         containerStyles={{ marginTop: 12 }}
                     />
                 </View>
 
-                <View className="mt-8 w-full items-center">
+                {/* <View className="mt-8 w-full items-center">
                     <View className="flex flex-row space-x-2 item">
                         <View className="border-t h-1 border-t-gray-200 w-full" />
                         <View className="w-8 -top-2 items-center">
@@ -136,7 +137,7 @@ const Connect = () => {
                         leftIcon="logo-apple"
                         containerStyles={{ marginTop: 12 }}
                     />
-                </View>
+                </View> */}
             </View>
         </SafeAreaView>
     );

@@ -24,11 +24,12 @@ const _layout = () => {
             </View>
 
             {/* page contents */}
-            <Stack initialRouteName="index">
+            <Stack initialRouteName="talk">
                 <Stack.Screen name="index" options={{ headerShown: false }} />
                 <Stack.Screen name="city" options={{ headerShown: false }} />
                 <Stack.Screen name="dob" options={{ headerShown: false }} />
                 <Stack.Screen name="pretalk" options={{ headerShown: false }} />
+                <Stack.Screen name="talk" options={{ headerShown: false }} />
                 {/* <Stack.Screen
                 name="info"
                 options={{
@@ -41,8 +42,7 @@ const _layout = () => {
                         </TouchableOpacity>
                     ),
                 }}
-            />
-            <Stack.Screen name="talk" options={{ headerShown: false }} /> */}
+            /> */}
             </Stack>
         </SafeAreaView>
     );

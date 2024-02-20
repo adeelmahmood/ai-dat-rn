@@ -37,11 +37,11 @@ export default function App() {
 
     return (
         <View className="flex-1 bg-white">
-            <View className="flex-1 px-6 py-4 mt-8">
+            <View className="flex-1 px-6 py-4">
                 <Text className="text-2xl font-roboto-bold">Where do you live?</Text>
 
                 <View className="mt-6 mb-8">
-                    <InputBox value={city} setValue={setCity} placeholder="Your City" size="lg" />
+                    <InputBox value={city} setValue={setCity} placeholder="Your City" />
                 </View>
 
                 {location ? (

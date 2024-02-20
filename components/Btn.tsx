@@ -6,18 +6,24 @@ const Btn = ({
     title,
     onPress = () => {},
     containerStyles = {},
+    isSecondary = false,
 }: {
     title: string;
     onPress?: any;
     containerStyles?: any;
+    isSecondary?: boolean;
 }) => {
     return (
         <TouchableOpacity
             style={{ ...styles.button, ...containerStyles }}
             onPress={onPress}
-            className="bg-primary px-6 py-3 rounded-2xl w-[80%] shadow-red-600"
+            className={`${
+                isSecondary ? "bg-gray-50" : "bg-primary"
+            } px-6 py-3 rounded-2xl w-[80%] shadow-red-600`}
         >
-            <Text className="text-white font-bold text-center">{title}</Text>
+            <Text className={`${isSecondary ? "" : "text-white"} font-bold text-center`}>
+                {title}
+            </Text>
         </TouchableOpacity>
     );
 };
