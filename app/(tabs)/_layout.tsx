@@ -1,13 +1,14 @@
 import { Image, Text, SafeAreaView, TouchableOpacity, View } from "react-native";
 import React, { useEffect } from "react";
-import { Tabs } from "expo-router";
+import { Tabs, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { COLORS } from "@/constants";
-import { useAuth } from "@/providers/auth";
 import { faker } from "@faker-js/faker";
 
 const TabsLayout = () => {
+    const router = useRouter();
+
     const [avatar, setAvatar] = React.useState("");
 
     useEffect(() => {
@@ -15,18 +16,6 @@ const TabsLayout = () => {
             setAvatar(faker.image.avatar());
         }
     }, [avatar]);
-
-    // useEffect(() => {
-    //     supabase.auth.onAuthStateChange((_event, session) => {
-    //         console.log(_event, session);
-    //     });
-    // }, []);
-
-    const { signOut } = useAuth();
-
-    const onSignOut = async () => {
-        await signOut();
-    };
 
     return (
         <SafeAreaView className="flex-1 bg-white">
@@ -54,10 +43,10 @@ const TabsLayout = () => {
                     {/* <Text className="text-sm text-gray-800">Talk Space</Text> */}
                 </View>
                 <View className="absolute right-2">
-                    <TouchableOpacity onPress={onSignOut} className="flex flex-row items-center">
+                    {/* <TouchableOpacity onPress={onSignOut} className="flex flex-row items-center">
                         <Text className="font-semibold text-gray-800 mr-2">Logout</Text>
                         <Ionicons name="log-out-outline" size={24} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </View>
 

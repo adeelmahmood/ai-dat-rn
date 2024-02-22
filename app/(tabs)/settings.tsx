@@ -1,17 +1,16 @@
-import { View, Text, StyleSheet, Image, Alert, TextInput, Button } from "react-native";
+import { View, Text, StyleSheet, Alert, TextInput, Button } from "react-native";
 import React, { useEffect, useState } from "react";
 import { COLORS } from "@/constants/colors";
 import { supabase } from "../lib/supabase";
 import { useRouter } from "expo-router";
+import { useAuth } from "@clerk/clerk-expo";
 
 const Settings = () => {
-    const [loading, setLoading] = useState(true);
-    const [username, setUsername] = useState("123");
-    const [website, setWebsite] = useState("");
-    const [avatarUrl, setAvatarUrl] = useState("");
-
+    const [loading, setLoading] = useState(false);
     const [session, setSession] = useState<any>();
     const router = useRouter();
+
+    const { signOut } = useAuth();
 
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
@@ -133,8 +132,7 @@ const Settings = () => {
                 <Button
                     title="Sign Out"
                     onPress={async () => {
-                        await supabase.auth.signOut();
-                        router.navigate("/");
+                        signOut();
                     }}
                 />
             </View>

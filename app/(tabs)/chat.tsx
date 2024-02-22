@@ -15,7 +15,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { DEFAULT_PROMPT } from "@/constants/prompts";
 import { COLORS } from "@/constants";
 import { useRouter } from "expo-router";
-import { useAuth } from "@/providers/auth";
 
 const OPEN_AI_KEY = process.env.EXPO_PUBLIC_OPEN_AI_KEY;
 
@@ -27,11 +26,8 @@ const Chat = () => {
     const [messages, setMessages] = useState<IMessage[]>([]);
     const [isTyping, setIsTyping] = useState(false);
 
-    const { signOut } = useAuth();
-
     const onSignOut = async () => {
         console.log("signing user out");
-        await signOut();
     };
 
     const prepareMessagesForGpt = (messages: IMessage[]) => {

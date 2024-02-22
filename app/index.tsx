@@ -40,7 +40,7 @@ const Welcome = () => {
                 </Text>
 
                 <View className="mt-4 w-full items-center">
-                    <BtnLink href="/connect" title="Lets Get Started" />
+                    <BtnLink href="/opt" title="Lets Get Started" />
                 </View>
             </View>
         </ImageBackground>

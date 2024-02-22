@@ -18,7 +18,6 @@ import { supabase } from "@/app/lib/supabase";
 import Btn from "@/components/Btn";
 import Spinner from "react-native-loading-spinner-overlay";
 import InputBox from "@/components/InputBox";
-import { useAuth } from "@/providers/auth";
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
@@ -34,14 +33,6 @@ AppState.addEventListener("change", (state) => {
 
 const Connect = () => {
     const router = useRouter();
-
-    const { authInitialized, user } = useAuth();
-
-    useEffect(() => {
-        if (user) {
-            router.navigate("/(tabs)/chat");
-        }
-    }, [user, authInitialized]);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

@@ -1,6 +1,7 @@
 import { View, Text, Image, StyleSheet, ScrollView, Dimensions } from "react-native";
 import React from "react";
 import { faker } from "@faker-js/faker";
+import BtnLink from "@/components/BtnLink";
 
 const { width, height } = Dimensions.get("window");
 
@@ -15,6 +16,10 @@ const Page = () => {
     return (
         <View style={{ flex: 1, backgroundColor: "#fff", padding: 20 }}>
             <Text style={{ fontSize: 24, fontWeight: "bold" }}>Your Profile</Text>
+
+            <View style={{ marginTop: 20 }}>
+                <BtnLink href="/profile" title="Generate Profile" />
+            </View>
 
             <View style={{ marginTop: 20 }}>
                 <ScrollView

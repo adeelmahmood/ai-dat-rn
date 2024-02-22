@@ -13,6 +13,7 @@ interface InputBoxProperties {
     capitalize?: boolean;
     containerStyles?: string;
     disabled?: boolean;
+    keyboardType?: any;
 }
 
 const InputBox: FC<InputBoxProperties> = ({
@@ -25,6 +26,7 @@ const InputBox: FC<InputBoxProperties> = ({
     capitalize = false,
     containerStyles = "",
     disabled = false,
+    keyboardType = "default",
 }) => {
     return (
         <View
@@ -36,6 +38,7 @@ const InputBox: FC<InputBoxProperties> = ({
                 </View>
             )}
             <TextInput
+                keyboardType={keyboardType}
                 className={`w-full ${size == "lg" && "text-lg mb-1"} p-2`}
                 onChangeText={(text) => setValue(text)}
                 value={value}
