@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet, Image, Alert, TextInput, Button } from "react-native";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "@/constants/colors";
 import { supabase } from "../lib/supabase";
 import { useRouter } from "expo-router";
@@ -93,41 +92,18 @@ const Settings = () => {
     }
 
     return (
-        <SafeAreaView style={styles.area}>
-            <View style={styles.container}>
-                {/* Page header */}
-                <View style={styles.header}>
-                    <Image
-                        source={require("@/assets/images/face.png")}
-                        style={{
-                            height: 36,
-                            width: 36,
-                            marginTop: 0,
-                        }}
-                    />
-                    <View
-                        style={{
-                            marginHorizontal: 12,
-                        }}
-                    >
-                        <Text style={styles.headerTitle}>Adeel Q</Text>
-                        <Text style={styles.headerSubtitle}>Profile</Text>
-                    </View>
-                </View>
+        <View style={styles.area}>
+            <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Email Address</Text>
+                <TextInput
+                    style={styles.input}
+                    editable={false}
+                    selectTextOnFocus={false}
+                    value={session?.user?.email}
+                />
+            </View>
 
-                {/* Profile page */}
-
-                <View style={styles.inputContainer}>
-                    <Text style={styles.inputLabel}>Email Address</Text>
-                    <TextInput
-                        style={styles.input}
-                        editable={false}
-                        selectTextOnFocus={false}
-                        value={session?.user?.email}
-                    />
-                </View>
-
-                {/* <View style={styles.inputContainer}>
+            {/* <View style={styles.inputContainer}>
                     <Text style={styles.inputLabel}>Username</Text>
                     <TextInput
                         style={styles.input}
@@ -145,7 +121,7 @@ const Settings = () => {
                     />
                 </View> */}
 
-                {/* <View style={{}}>
+            {/* <View style={{}}>
                     <Button
                         title={loading ? "Loading ..." : "Update"}
                         onPress={() => updateProfile({ username, website, avatar_url: avatarUrl })}
@@ -153,17 +129,16 @@ const Settings = () => {
                     />
                 </View> */}
 
-                <View style={{}}>
-                    <Button
-                        title="Sign Out"
-                        onPress={async () => {
-                            await supabase.auth.signOut();
-                            router.navigate("/");
-                        }}
-                    />
-                </View>
+            <View style={{}}>
+                <Button
+                    title="Sign Out"
+                    onPress={async () => {
+                        await supabase.auth.signOut();
+                        router.navigate("/");
+                    }}
+                />
             </View>
-        </SafeAreaView>
+        </View>
     );
 };
 

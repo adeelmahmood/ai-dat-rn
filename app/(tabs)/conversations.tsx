@@ -53,27 +53,7 @@ const Conversations = () => {
     };
 
     return (
-        <SafeAreaView className="flex-1 bg-white">
-            {/* Page header */}
-            <View className="flex flex-row justify-center items-center border-b border-b-gray-300 px-6 py-3">
-                <Image
-                    source={require("@/assets/images/face.png")}
-                    style={{
-                        height: 36,
-                        width: 36,
-                        marginTop: 0,
-                    }}
-                />
-                <View
-                    style={{
-                        marginHorizontal: 12,
-                    }}
-                >
-                    <Text className="font-semibold">Adeel Q</Text>
-                    <Text className="text-sm text-gray-800">Conversations</Text>
-                </View>
-            </View>
-
+        <View className="flex-1 bg-white">
             {/* Search header */}
             <View className="flex flex-row p-3 bg-secondary_white rounded-md items-center">
                 <TouchableOpacity>
@@ -91,7 +71,7 @@ const Conversations = () => {
                     showsVerticalScrollIndicator={false}
                 />
             </View>
-        </SafeAreaView>
+        </View>
     );
 };
 

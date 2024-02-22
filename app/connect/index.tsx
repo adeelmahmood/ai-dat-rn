@@ -1,5 +1,14 @@
-import { View, Text, Image, TouchableOpacity, AppState, Alert } from "react-native";
-import React, { useState } from "react";
+import {
+    View,
+    Text,
+    Image,
+    TouchableOpacity,
+    AppState,
+    Alert,
+    KeyboardAvoidingView,
+    Platform,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
@@ -9,6 +18,7 @@ import { supabase } from "@/app/lib/supabase";
 import Btn from "@/components/Btn";
 import Spinner from "react-native-loading-spinner-overlay";
 import InputBox from "@/components/InputBox";
+import { useAuth } from "@/providers/auth";
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
@@ -25,9 +35,19 @@ AppState.addEventListener("change", (state) => {
 const Connect = () => {
     const router = useRouter();
 
+    const { authInitialized, user } = useAuth();
+
+    useEffect(() => {
+        if (user) {
+            router.navigate("/(tabs)/chat");
+        }
+    }, [user, authInitialized]);
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+
+    const [lightMode, setLightMode] = useState(false);
 
     async function signInWithEmail() {
         if (!email || !password) {
@@ -36,13 +56,15 @@ const Connect = () => {
         }
 
         setLoading(true);
-        const { error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabase.auth.signInWithPassword({
             email: email,
             password: password,
         });
+        console.log("tried logging in with ", email, password);
+        console.log(data, error);
 
         if (error) Alert.alert(error.message);
-        // else router.navigate("profile");
+        else router.navigate("/(tabs)");
         setLoading(false);
     }
 
@@ -67,56 +89,92 @@ const Connect = () => {
     }
 
     return (
-        <SafeAreaView className="flex-1 bg-white">
+        <SafeAreaView className={`flex-1 ${lightMode ? "bg-gray-50" : "bg-pink-800"}`}>
             <Spinner visible={loading} />
             <View
                 style={{
                     position: "absolute",
-                    marginTop: 34,
-                    paddingLeft: 14,
-                    zIndex: 999,
+                    top: 55,
+                    left: 20,
+                    zIndex: 1,
                 }}
             >
                 <TouchableOpacity onPress={() => router.back()}>
-                    <Ionicons name="arrow-back" size={32} color={COLORS.primary} />
+                    <Ionicons
+                        name="arrow-back-circle-outline"
+                        size={32}
+                        color={lightMode ? COLORS.primary : COLORS.white}
+                    />
                 </TouchableOpacity>
             </View>
-            <View className="flex-1 items-center justify-center">
-                <Image
-                    source={require("@/assets/images/logo3.jpeg")}
-                    className="h-56 w-56"
-                    resizeMode="contain"
-                />
-                <Text className="font-extrabold text-2xl mb-4 -top-2">Welcome Back</Text>
 
-                <InputBox
-                    value={email}
-                    setValue={setEmail}
-                    placeholder="Email Address"
-                    icon="mail-outline"
-                    containerStyles="max-w-xs"
-                />
-
-                <InputBox
-                    value={password}
-                    setValue={setPassword}
-                    placeholder="Password"
-                    icon="lock-closed-outline"
-                    secure={true}
-                    containerStyles="max-w-xs mt-2"
-                />
-
-                <View className="mt-8 w-full items-center">
-                    <Btn title="Sign In" onPress={() => signInWithEmail()} />
-                    <Btn
-                        title="Register"
-                        isSecondary={true}
-                        onPress={() => signUpWithEmail()}
-                        containerStyles={{ marginTop: 12 }}
+            <View
+                style={{
+                    position: "absolute",
+                    top: 55,
+                    right: 20,
+                    zIndex: 1,
+                }}
+            >
+                <TouchableOpacity onPress={() => setLightMode(!lightMode)}>
+                    <Ionicons
+                        name={`${lightMode ? "toggle-outline" : "toggle"}`}
+                        size={32}
+                        color={lightMode ? COLORS.primary : COLORS.white}
                     />
-                </View>
+                </TouchableOpacity>
+            </View>
 
-                {/* <View className="mt-8 w-full items-center">
+            <KeyboardAvoidingView
+                style={{ flex: 1 }}
+                behavior={Platform.OS == "ios" ? "height" : "padding"}
+            >
+                <View className="flex-1 items-center justify-center">
+                    <Image
+                        source={require("@/assets/images/logo3-removebg.png")}
+                        className="h-56 w-56"
+                        resizeMode="contain"
+                    />
+                    <Text
+                        className={`font-extrabold text-2xl mb-4 -top-2 ${
+                            lightMode ? "text-gray-900" : "text-gray-100"
+                        }`}
+                    >
+                        Welcome Back
+                    </Text>
+
+                    <InputBox
+                        value={email}
+                        setValue={setEmail}
+                        placeholder="Email Address"
+                        icon="mail-outline"
+                        containerStyles="max-w-xs"
+                    />
+
+                    <InputBox
+                        value={password}
+                        setValue={setPassword}
+                        placeholder="Password"
+                        icon="lock-closed-outline"
+                        secure={true}
+                        containerStyles="max-w-xs mt-4"
+                    />
+
+                    <View className="mt-8 w-full items-center max-w-xs">
+                        <Btn
+                            title="Sign In"
+                            isSecondary={!lightMode}
+                            onPress={() => signInWithEmail()}
+                        />
+                        <Btn
+                            title="Register"
+                            isSecondary={!lightMode}
+                            onPress={() => signUpWithEmail()}
+                            containerStyles={{ marginTop: 12 }}
+                        />
+                    </View>
+
+                    {/* <View className="mt-8 w-full items-center">
                     <View className="flex flex-row space-x-2 item">
                         <View className="border-t h-1 border-t-gray-200 w-full" />
                         <View className="w-8 -top-2 items-center">
@@ -138,7 +196,8 @@ const Connect = () => {
                         containerStyles={{ marginTop: 12 }}
                     />
                 </View> */}
-            </View>
+                </View>
+            </KeyboardAvoidingView>
         </SafeAreaView>
     );
 };

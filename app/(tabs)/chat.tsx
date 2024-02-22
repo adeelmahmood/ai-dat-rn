@@ -128,33 +128,7 @@ const Chat = () => {
     // };
 
     return (
-        <SafeAreaView className="flex-1 bg-white">
-            {/* page header */}
-            <View className="flex flex-row justify-center items-center border-b border-b-gray-300 px-6 py-3 relative">
-                <Image
-                    source={require("../../assets/images/face.png")}
-                    style={{
-                        height: 36,
-                        width: 36,
-                        marginTop: 0,
-                    }}
-                />
-                <View
-                    style={{
-                        marginHorizontal: 12,
-                    }}
-                >
-                    <Text className="font-semibold">Adeel Q</Text>
-                    <Text className="text-sm text-gray-800">Talk Space</Text>
-                </View>
-                <View className="absolute right-2">
-                    <TouchableOpacity onPress={onSignOut} className="flex flex-row items-center">
-                        <Text className="font-semibold text-gray-800 mr-2">Logout</Text>
-                        <Ionicons name="log-out-outline" size={24} />
-                    </TouchableOpacity>
-                </View>
-            </View>
-
+        <View className="flex-1 bg-white">
             <GiftedChat
                 messages={messages}
                 onSend={(newMessages: any) => onSend(newMessages)}
@@ -172,7 +146,7 @@ const Chat = () => {
                 // renderComposer={renderComposer}
             />
             {Platform.OS === "android" && <KeyboardAvoidingView behavior="padding" />}
-        </SafeAreaView>
+        </View>
     );
 };
 

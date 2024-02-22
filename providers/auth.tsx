@@ -54,9 +54,9 @@ export function Provider(props: ProviderProps) {
                 router.navigate("/");
             }
             // skip connect page
-            if (user && segments[0] == "connect") {
-                router.navigate("/profile/");
-            }
+            // if (user && segments[0] == "connect") {
+            //     router.navigate("/profile/");
+            // }
 
             // // unprotected route
             // if (segments[0] === "connect") return;
