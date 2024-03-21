@@ -1,17 +1,17 @@
 import { COLORS } from "@/constants";
 import { Ionicons } from "@expo/vector-icons";
 import { FC } from "react";
-import { TextInput, View } from "react-native";
+import { TextInput, View, StyleSheet, Dimensions } from "react-native";
+
+const { width, height } = Dimensions.get("window");
 
 interface InputBoxProperties {
     value: string;
     setValue: any;
     placeholder: string;
     icon?: any;
-    size?: string;
     secure?: boolean;
     capitalize?: boolean;
-    containerStyles?: string;
     disabled?: boolean;
     keyboardType?: any;
 }
@@ -21,33 +21,53 @@ const InputBox: FC<InputBoxProperties> = ({
     setValue,
     placeholder,
     icon = "",
-    size = "nm",
     secure = false,
     capitalize = false,
-    containerStyles = "",
     disabled = false,
     keyboardType = "default",
 }) => {
     return (
-        <View
-            className={`flex flex-row bg-gray-100 items-center rounded-lg px-2 py-2 ${containerStyles}`}
-        >
-            {icon && (
-                <View>
-                    <Ionicons name={icon} size={size == "lg" ? 28 : 24} color={COLORS.primary} />
-                </View>
-            )}
+        <View style={styles.inputContainer}>
             <TextInput
                 keyboardType={keyboardType}
-                className={`w-full ${size == "lg" && "text-lg mb-1"} p-2`}
+                style={styles.input}
                 onChangeText={(text) => setValue(text)}
                 value={value}
                 placeholder={placeholder}
                 secureTextEntry={secure}
                 autoCapitalize={capitalize ? "words" : "none"}
+                placeholderTextColor="#C2185B50"
             />
+            {icon && (
+                <View style={styles.icon}>
+                    <Ionicons name={icon} size={32} color={COLORS.primary} />
+                </View>
+            )}
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    inputContainer: {
+        justifyContent: "center",
+        alignItems: "center",
+        width: width * 0.8,
+    },
+    input: {
+        height: 50,
+        width: width * 0.8,
+        backgroundColor: "#FFFFFF",
+        borderColor: "#C2185B",
+        borderWidth: 2,
+        borderRadius: 25,
+        paddingHorizontal: 20,
+        fontSize: 18,
+        color: "#C2185B",
+    },
+    icon: {
+        position: "absolute",
+        left: width * 0.8 - 50,
+    },
+});
 
 export default InputBox;

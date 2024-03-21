@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import MapView, { Marker } from "react-native-maps";
-import { StyleSheet, View, Text, Alert } from "react-native";
+import { View, Text, Alert } from "react-native";
 
 import * as Location from "expo-location";
 import InputBox from "@/components/InputBox";
 import BtnLink from "@/components/BtnLink";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function App() {
+    const insets = useSafeAreaInsets();
+
     const [city, setCity] = useState<string>("");
 
     const [location, setLocation] = useState<Location.LocationObject | null>(null);
@@ -37,42 +40,54 @@ export default function App() {
 
     return (
         <View className="flex-1 bg-white">
-            <View className="flex-1 px-6 py-4">
-                <Text className="text-2xl font-roboto-bold">Where do you live?</Text>
+            <View
+                className="flex-1 px-6 py-4 justify-between"
+                style={{ marginBottom: insets.bottom }}
+            >
+                <View style={{ flex: 1 }}>
+                    <Text className="text-2xl font-roboto-bold">Where do you live?</Text>
 
-                <View className="mt-6 mb-8">
-                    <InputBox value={city} setValue={setCity} placeholder="Your City" />
-                </View>
+                    <View style={{ marginTop: 10, marginBottom: 10 }}>
+                        <InputBox value={city} setValue={setCity} placeholder="Your City" />
+                    </View>
 
-                {location ? (
-                    <View className="flex-1 rounded-3xl">
-                        <MapView
-                            className="flex-1"
-                            initialRegion={{
-                                latitude: location.coords.latitude,
-                                longitude: location.coords.longitude,
-                                latitudeDelta: 0.0922,
-                                longitudeDelta: 0.0421,
-                            }}
-                        >
-                            {/* Marker for Current Location */}
-                            <Marker
-                                coordinate={{
+                    {location ? (
+                        <View className="flex-1">
+                            <MapView
+                                className="flex-1"
+                                initialRegion={{
                                     latitude: location.coords.latitude,
                                     longitude: location.coords.longitude,
+                                    latitudeDelta: 0.0922,
+                                    longitudeDelta: 0.0421,
                                 }}
-                                title="Your Location"
-                            />
-                        </MapView>
-                    </View>
-                ) : (
-                    <Text>{errorMsg}</Text>
-                )}
-
-                <View className="mt-8 flex flex-row items-center justify-between">
-                    <BtnLink icon="arrow-back" href="/profile/" />
-                    <BtnLink icon="arrow-forward" href="/profile/dob" />
+                            >
+                                {/* Marker for Current Location */}
+                                <Marker
+                                    coordinate={{
+                                        latitude: location.coords.latitude,
+                                        longitude: location.coords.longitude,
+                                    }}
+                                    title="Your Location"
+                                />
+                            </MapView>
+                        </View>
+                    ) : (
+                        <Text>{errorMsg}</Text>
+                    )}
                 </View>
+
+                <BtnLink
+                    href="/profile/dob"
+                    title="Next"
+                    containerStyles={{
+                        marginTop: 10,
+                        width: 150,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexDirection: "row",
+                    }}
+                />
             </View>
         </View>
     );

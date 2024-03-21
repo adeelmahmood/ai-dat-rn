@@ -12,23 +12,23 @@ const PreTalk = () => {
                 className="flex-1"
                 resizeMethod="scale"
             />
-            <View className="flex-1 px-6 py-4">
-                <Text className="text-2xl font-roboto-bold">Understand your preferences</Text>
+            <View className="flex-1 px-6 py-4 justify-between">
+                <View>
+                    <Text className="text-2xl font-roboto-bold">Understand your preferences</Text>
 
-                <Text className="text-lg font-roboto mt-6">
-                    Next, we will ask you some questions to understand what you are looking for.
-                </Text>
+                    <Text className="text-lg font-roboto mt-6">
+                        Next, we will ask you some questions to understand what you are looking for.
+                    </Text>
 
-                <Text className="text-lg font-roboto mt-6">
-                    This will should only take a couple of mins and you can always come back to
-                    finish it.
-                </Text>
+                    <Text className="text-lg font-roboto mt-6">
+                        This will should only take a couple of mins and you can always come back to
+                        finish it.
+                    </Text>
 
-                <Text className="text-lg mt-6 font-roboto-med">
-                    Once you are ready, hit the Next button
-                </Text>
-
-                <View className="mt-6 mb-8">{/* page content */}</View>
+                    <Text className="text-lg mt-6 font-roboto-med">
+                        Once you are ready, hit the Next button
+                    </Text>
+                </View>
 
                 {/* bottom buttons */}
                 <View className="flex-row items-center justify-between">
